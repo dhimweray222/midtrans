@@ -19,10 +19,11 @@ class BarangController {
                 category
                 },
             });
+            console.log(created)
             if (created) {
                 res.status(200).json({
                     message: 'Successfully Create Barang',
-                    barang: barang,
+                    barang,
                 });
             } else {
                 throw {
@@ -34,7 +35,7 @@ class BarangController {
             next(err);
         }
     }
-    dhimas
+
     static async getAll(req, res, next) {
       try {
         const barang = await Barang.findAll();

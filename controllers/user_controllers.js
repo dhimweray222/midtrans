@@ -74,6 +74,56 @@ class AuthController {
             next(err);
         }
     }
+    static async getProfile(req, res, next){
+        try {
+            const id = req.params.id
+            const user = await User.findOne({ where: { id: id } });
+
+            if(user){
+                res.status(200).json({
+                data : user,
+                message : "Success"
+                })
+            } else {
+                throw {
+                    status: 404,
+                    message: 'Data Not Found!',
+                };
+            }
+
+
+        } catch (err) {
+            next(err)
+        }
+
+    }
+    static async updateProfile(req, res, next) {
+        try {
+            const {firstName,lastName,email,} = req.body
+            const id = req.params.id
+            let user = await User.update({firstName, lastName, email}, {
+                where: {
+                    id
+                },
+                returning : true
+            });
+            if(user) {
+                res.status(200).json({
+                    message: 'Successfully Update User',
+                    user,
+                });
+            } else {
+                throw {
+                    status : 401,
+                    message : "Update Failed!",
+                }
+            }
+
+        } catch (err) {
+            next(err)
+
+        }
+    }
 }
 
 
